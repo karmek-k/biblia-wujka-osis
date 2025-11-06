@@ -6,3 +6,4 @@ Biblia Jakuba Wujka w formacie OSIS, pobrana z [Wikiźródeł](<https://pl.wikis
 
 - `unzip`
 - `make`
+- `python3`

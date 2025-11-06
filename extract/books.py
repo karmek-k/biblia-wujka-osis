@@ -10,7 +10,7 @@ class Book:
         return self.name
     
     def __repr__(self):
-        return f'<Book name="{self.name}">'
+        return f'<Book name="{self.name}" href="{self.href}">'
 
 def is_valid_title(text: str) -> bool:
     """

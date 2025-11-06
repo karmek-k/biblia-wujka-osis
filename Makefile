@@ -8,3 +8,5 @@ extract: bible-text
 
 bible-text: $(SOURCE)
 	unzip $(SOURCE) -d $(BIBLE_DIR)
+
+.PHONY: extract

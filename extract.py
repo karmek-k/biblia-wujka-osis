@@ -15,8 +15,5 @@ os.chdir(directory)
 #
 # List books
 #
-with open('toc.ncx') as f:
-    # table of contents
-    toc = ET.parse(f)
-
+toc = ET.parse('toc.ncx')
 books = parse_toc(toc)

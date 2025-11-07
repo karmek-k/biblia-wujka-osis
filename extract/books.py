@@ -2,14 +2,14 @@ from xml.etree.ElementTree import ElementTree
 
 
 class Book:
-    def __init__(self, name, *, href):
+    def __init__(self, name: str, *, href: str):
         self.name = name
         self.href = href
     
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'<Book name="{self.name}" href="{self.href}">'
 
 def is_valid_title(text: str) -> bool:

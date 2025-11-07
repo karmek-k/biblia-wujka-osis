@@ -1,3 +1,4 @@
+import re
 import xml.etree.ElementTree as ET
 
 
@@ -33,10 +34,29 @@ class Chapter:
         return roman_numeral + ' ' + title
     
     def _parse_verses(self, tree):
-        # root = tree.getroot() 
-        # namespace = {'xhtml': 'http://www.w3.org/1999/xhtml'}
+        root = tree.getroot() 
+        namespace = {'xhtml': 'http://www.w3.org/1999/xhtml'}
 
-        return dict()
+        result = dict()
+
+        verses = root.findall('.//xhtml:p', namespace)
+        for verse in verses:
+            text = ''.join(verse.itertext()).strip()
+
+            if not re.search(r'[A-z]', text):
+                # no letters found
+                continue
+            
+            number_regex = r'^([0-9]+)\u00a0'
+
+            number_match = re.search(number_regex, text)
+            number = number_match.group(1) if number_match is not None else '1'
+            
+            text = re.sub(number_regex, '', text)
+
+            result[number] = text
+
+        return result
 
 
 def parse_chapter_toc(tree: ET.ElementTree) -> list[Chapter]:

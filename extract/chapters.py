@@ -6,6 +6,7 @@ class Chapter:
         self.number = number
         self.href = href
         self.title = None
+        self.verses = []
 
     def __str__(self) -> str:
         return f'Chapter {self.number}'
@@ -17,6 +18,7 @@ class Chapter:
         tree = ET.parse(self.href)
 
         self.title = self._parse_title(tree)
+        self.verses = self._parse_verses(tree)
 
     def _parse_title(self, tree):
         root = tree.getroot() 
@@ -29,6 +31,12 @@ class Chapter:
         title = ''.join(title_node.itertext()).strip()
 
         return roman_numeral + ' ' + title
+    
+    def _parse_verses(self, tree):
+        # root = tree.getroot() 
+        # namespace = {'xhtml': 'http://www.w3.org/1999/xhtml'}
+
+        return dict()
 
 
 def parse_chapter_toc(tree: ET.ElementTree) -> list[Chapter]:

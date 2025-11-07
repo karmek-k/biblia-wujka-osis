@@ -23,3 +23,4 @@ class TestChapters(unittest.TestCase):
 
         self.assertTrue('O świata stworzeniu' in chapter.title)
         self.assertTrue('ROZDZIAŁ I.' in chapter.title)
+        self.assertEqual(31, len(chapter.verses))

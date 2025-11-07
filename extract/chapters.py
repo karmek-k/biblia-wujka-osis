@@ -21,4 +21,11 @@ def parse_chapter_toc(tree: ElementTree) -> list[Chapter]:
     
     result = []
 
+    for anchor in anchors:
+        # only numeric anchor contents have meaningful hrefs
+        if not anchor.text.isnumeric():
+            continue
+        
+        result.append(Chapter(int(anchor.text), href=anchor.attrib['href']))
+
     return result

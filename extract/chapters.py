@@ -15,6 +15,10 @@ class Chapter:
     
     def parse(self) -> None:
         tree = ET.parse(self.href)
+
+        self.title = self._parse_title(tree)
+
+    def _parse_title(self, tree):
         root = tree.getroot() 
         namespace = {'xhtml': 'http://www.w3.org/1999/xhtml'}
 
@@ -24,7 +28,7 @@ class Chapter:
         title_node = root.find(".//xhtml:div[@style='font-size:85%;line-height:normal']", namespace)
         title = ''.join(title_node.itertext()).strip()
 
-        self.title = roman_numeral + ' ' + title
+        return roman_numeral + ' ' + title
 
 
 def parse_chapter_toc(tree: ET.ElementTree) -> list[Chapter]:

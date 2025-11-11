@@ -1,10 +1,16 @@
-from xml.etree.ElementTree import ElementTree
+import xml.etree.ElementTree as ET
+
+from extract.chapters import parse_chapter_toc
 
 
 class Book:
     def __init__(self, name: str, *, href: str):
         self.name = name
         self.href = href
+        self.chapters = []
+    
+    def parse(self):
+        self.chapters = parse_chapter_toc(ET.parse(self.href))
     
     def __str__(self) -> str:
         return self.name
@@ -25,7 +31,7 @@ def is_valid_title(text: str) -> bool:
     
     return True
 
-def parse_toc(tree: ElementTree) -> list[Book]:
+def parse_toc(tree: ET.ElementTree) -> list[Book]:
     """
     Extracts all books in the table of contents.
     """

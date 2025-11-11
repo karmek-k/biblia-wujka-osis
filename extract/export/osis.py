@@ -1,11 +1,16 @@
 from datetime import date
 
+from extract.books import Book
+
 
 class OsisExport:
     def __init__(self, *, publication_date: date=date.today()):
         self.template = self.template(
             publication_date=publication_date,
         )
+    
+    def export(self, books: list[Book]):
+        return self.template
 
     @staticmethod
     def template(*, publication_date: date) -> str:
@@ -29,4 +34,3 @@ class OsisExport:
     </header>
 </osisText>
 </osis>"""
-

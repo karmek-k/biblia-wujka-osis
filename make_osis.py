@@ -23,20 +23,19 @@ books = parse_toc(toc)
 #
 # Extract chapters and verses
 #
+for book in books:
+    book.parse()
 
-# one book and chapter for now
-book = books[0]
-book.parse()
-
-# one chapter for now
-chapter = book.chapters[0]
-chapter.parse()
+    # one chapter for now
+    for chapter in book.chapters:
+        print(f'[PROCESSING] {book.name} - Chapter {chapter.number}')
+        chapter.parse()
 
 #
 # OSIS export
 #
 export = OsisExport()
-result = export.export([book])
+result = export.export(books)
 
 with open(cwd / 'out' / 'bwujka.xml', mode='w', encoding='UTF-8') as f:
     f.write(result)

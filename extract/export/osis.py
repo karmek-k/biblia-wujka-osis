@@ -9,11 +9,11 @@ class OsisExport:
 
     @staticmethod
     def template(*, publication_date: date) -> str:
-        return f'''<?xml version='1.0' encoding='UTF-8'?>
+        return f"""<?xml version='1.0' encoding='UTF-8'?>
 <osis xsi:schemaLocation='http://www.bibletechnologies.net/2003/OSIS/namespace http://www.bibletechnologies.net/osisCore.2.1.1.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.bibletechnologies.net/2003/OSIS/namespace'>
 <osisText osisRefWork='Bible' osisIDWork='BWujka' xml:lang='pl'>
     <header>
-    <work osisWork='DOUR'>
+    <work osisWork='BWujka'>
         <title>Biblia Jakuba Wujka</title>
         <contributor>Bartosz Gleń</contributor>
         <date>{publication_date.isoformat()}</date>
@@ -28,5 +28,5 @@ class OsisExport:
     </work>
     </header>
 </osisText>
-</osis>'''
+</osis>"""
 

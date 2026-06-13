@@ -58,7 +58,9 @@ class Chapter:
         )
         title = "".join(title_node.itertext()).strip() if title_node is not None else ""
 
-        if roman_numeral is None:
+        # only chapter markers (e.g. "ROZDZIAŁ I.") belong in the title;
+        # single-chapter books have a book superscription here instead
+        if roman_numeral is None or not roman_numeral.startswith("ROZDZIAŁ"):
             return title
 
         return roman_numeral + " " + title

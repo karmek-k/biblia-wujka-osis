@@ -21,6 +21,9 @@ import re
 from extract.parse import XmlTree, parse
 
 
+NS = {"xhtml": "http://www.w3.org/1999/xhtml"}
+
+
 class Chapter:
     def __init__(self, number: int, *, href: str):
         self.number = number
@@ -42,27 +45,32 @@ class Chapter:
 
     def _parse_title(self, tree) -> str:
         root = tree.getroot()
-        namespace = {"xhtml": "http://www.w3.org/1999/xhtml"}
 
-        roman_numeral_node = root.find(
-            ".//xhtml:div[@class='center']/xhtml:b", namespace
+        roman_numeral_node = root.find(".//xhtml:div[@class='center']/xhtml:b", NS)
+        roman_numeral = (
+            "".join(roman_numeral_node.itertext())
+            if roman_numeral_node is not None
+            else None
         )
-        roman_numeral = "".join(roman_numeral_node.itertext())
 
         title_node = root.find(
-            ".//xhtml:div[@style='font-size:85%;line-height:normal']", namespace
+            ".//xhtml:div[@style='font-size:85%;line-height:normal']", NS
         )
         title = "".join(title_node.itertext()).strip() if title_node is not None else ""
+
+        # only chapter markers (e.g. "ROZDZIAŁ I.") belong in the title;
+        # single-chapter books have a book superscription here instead
+        if roman_numeral is None or not roman_numeral.startswith("ROZDZIAŁ"):
+            return title
 
         return roman_numeral + " " + title
 
     def _parse_verses(self, tree) -> dict[str, str]:
         root = tree.getroot()
-        namespace = {"xhtml": "http://www.w3.org/1999/xhtml"}
 
         result = {}
 
-        verses = root.findall(".//xhtml:p", namespace)
+        verses = root.findall(".//xhtml:p", NS)
         for verse in verses:
             text = "".join(verse.itertext()).strip()
 
@@ -91,9 +99,8 @@ class Chapter:
 
 def parse_chapter_toc(tree: XmlTree) -> list[Chapter]:
     root = tree.getroot()
-    namespace = {"xhtml": "http://www.w3.org/1999/xhtml"}
 
-    anchors = root.findall(".//xhtml:a", namespace)
+    anchors = root.findall(".//xhtml:a", NS)
 
     result = []
 

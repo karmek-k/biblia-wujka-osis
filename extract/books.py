@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from extract.chapters import parse_chapter_toc
+from extract.chapters import parse_chapter_toc, Chapter
 from extract.parse import XmlTree, parse
 
 
@@ -28,6 +28,12 @@ class Book:
 
     def parse(self):
         self.chapters = parse_chapter_toc(parse(self.href))
+
+        if len(self.chapters) == 0:
+            # single-chapter book without a TOC
+            chapter = Chapter(1, href=self.href)
+            chapter.parse()
+            self.chapters = [chapter]
 
     def __str__(self) -> str:
         return self.name
